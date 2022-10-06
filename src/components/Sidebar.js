@@ -2,26 +2,27 @@ import { Description, Fingerprint, Groups, Home, ModeNight, Person, Settings, St
 import { Box, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Switch } from '@mui/material';
 import React from 'react';
 
-export default function Sidebar() {
+export default function Sidebar(props) {
+    const { tv, filme } = props
     return (
         <Box flex={1} p={2} sx={{ display: { xs: "none", sm: "block" } }}>
             <Box position='fixed'>
 
                 <List>
                     <ListItem disablePadding>
-                        <ListItemButton component='a' href='#home'>
+                        <ListItemButton component='a' href='#filme' onClick={() => filme()}>
                             <ListItemIcon>
                                 <Home />
                             </ListItemIcon>
-                            <ListItemText primary="Homepage" />
+                            <ListItemText primary="Filmes" />
                         </ListItemButton>
                     </ListItem>
                     <ListItem disablePadding>
-                        <ListItemButton component='a' href='#page'>
+                        <ListItemButton component='a' href='#serie' onClick={() => tv()}>
                             <ListItemIcon>
                                 <Description />
                             </ListItemIcon>
-                            <ListItemText primary="Pages" />
+                            <ListItemText primary="Series" />
                         </ListItemButton>
                     </ListItem>
                     <ListItem disablePadding>
