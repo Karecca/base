@@ -1,6 +1,8 @@
-import { Mail, Notifications, Pets } from '@mui/icons-material';
-import { AppBar, Avatar, Badge, Box, InputBase, Menu, MenuItem, styled, Toolbar, Typography } from '@mui/material';
+import { ModeNight, Pets } from '@mui/icons-material';
+import { AppBar, Avatar, Box, InputBase, List, ListItem, ListItemButton, ListItemIcon, Menu, MenuItem, styled, Switch, Toolbar, Typography } from '@mui/material';
 import React, { useState } from 'react';
+
+import { useBusca } from '../providers/busca';
 
 const StyledToolbar = styled(Toolbar)({
     display: "flex",
@@ -8,7 +10,7 @@ const StyledToolbar = styled(Toolbar)({
 })
 
 const Search = styled("div")(({ theme }) => ({
-    backgroundColor: "white",
+    backgroundColor: "background.default",
     padding: "0 10px",
     borderRadius: theme.shape.borderRadius,
     width: '40%'
@@ -34,22 +36,41 @@ const UserBox = styled(Box)(({ theme }) => ({
 
 export default function Navbar() {
 
+    const { setQuery, setTipoBusca, modo, setModo } = useBusca()
+
     const [open, setOpen] = useState(false)
+    const [textInput, setTextInput] = useState('')
+
+    const buscar = (event) => {
+        if (event.key === 'Enter') {
+            setTipoBusca('busca')
+            setQuery(textInput)
+            setTextInput('')
+
+        }
+    }
+
 
     return (
         <AppBar position='sticky'>
             <StyledToolbar>
                 <Typography variant="h6" sx={{ display: { xs: 'none', sm: 'block' } }}>QUINZE</Typography>
                 <Pets sx={{ display: { xs: "block", sm: "none" } }} />
-                <Search><InputBase placeholder='buscar...' /></Search>
+                <Search sx={{ bgcolor: (modo === 'light' ? '#fff' : '#000') }} >
+                    <InputBase id='txtBuscar' placeholder='buscar...'
+                        value={textInput} onChange={(e) => setTextInput(e.target.value)} onKeyDown={(e) => buscar(e)} onBlur={() => setTextInput('')} />
+                </Search>
                 <Icons>
-                    <Badge badgeContent={4} color='error'>
-                        <Mail />
-                    </Badge>
-                    <Badge badgeContent={5} color='error'>
-                        <Notifications />
-                    </Badge>
-                    <Avatar sx={{ width: 30, height: 30 }} src="https://avatars.githubusercontent.com/u/2?v=4" onClick={e => setOpen(true)} />
+                    <List>
+                        <ListItem>
+                            <ListItemButton component='a' href='#'>
+                                <ListItemIcon>
+                                    <ModeNight />
+                                </ListItemIcon>
+                                <Switch onChange={(e) => setModo(modo === 'light' ? 'dark' : 'light')} />
+                            </ListItemButton>
+                        </ListItem>
+                    </List>
                 </Icons>
                 <UserBox onClick={e => setOpen(true)}>
                     <Avatar sx={{ width: 30, height: 30 }} src="https://avatars.githubusercontent.com/u/2?v=4"
