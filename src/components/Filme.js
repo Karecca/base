@@ -6,7 +6,7 @@ export default function Filme(props) {
     const { movie } = props
 
     return (
-        <Card sx={{ margin: 3 }}>
+        <Card sx={{ margin: 3, maxWidth: 450 }}>
             <CardHeader
                 avatar={
                     <Avatar sx={{ bgcolor: 'red' }} aria-label="recipe">
